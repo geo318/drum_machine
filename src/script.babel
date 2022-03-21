@@ -1,0 +1,102 @@
+const audioFiles = [
+  ["Q","hh03","https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/DRUM%20MACHINES/808%20Extended/24[kb]808-hh03.wav.mp3"],
+  ["W","bd01","https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/DRUM%20MACHINES/808%20Extended/21[kb]808-bd01.wav.mp3"],
+  ["E","bd09","https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/DRUM%20MACHINES/808%20Extended/152[kb]808-bd09.wav.mp3"],
+  ["A","chi3","https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/DRUM%20MACHINES/808%20Extended/42[kb]808-chi3.wav.mp3"],
+  ["S","clap2","https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/DRUM%20MACHINES/808%20Extended/65[kb]808-clap2.wav.mp3"],
+  ["D","clo2","https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/DRUM%20MACHINES/808%20Extended/64[kb]808-clo2.wav.mp3"],
+  ["Z","cym01","https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/DRUM%20MACHINES/808%20Extended/143[kb]808-cym01.wav.mp3"],
+  ["X","rim3","https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/DRUM%20MACHINES/808%20Extended/7[kb]808-rim3.wav.mp3"],
+  ["C","tlo1","https://sampleswap.org/samples-ghost/DRUMS%20(FULL%20KITS)/DRUM%20MACHINES/808%20Extended/80[kb]808-tlo1.wav.mp3"]
+];
+
+const player = (id) => {
+  let file = document.getElementById(id);
+  file.load();
+  return file.play();
+}
+const displayUp = (x) => {
+  let display = document.getElementById(x);
+  return display.innerHTML = display.parentNode.id;
+}
+const addClass = (x) => {
+  let butt = document.getElementById(x).parentNode;
+  butt.classList.add("active");
+  setTimeout(() => butt.classList.remove('active'), 150);
+}
+class Drum extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      play : false,
+      title : "----",
+      class : ''
+    }
+    this.butClick = this.butClick.bind(this);
+    this.keyPress = this.keyPress.bind(this);
+  }
+  butClick = (id, title) => {
+    this.setState({
+      play : player(id),
+      title : displayUp(id),
+      class : addClass(id)
+    })
+  }
+
+  keyPress = (title,id,e) => {
+    if(audioFiles.map(x => x[0]).indexOf(e.key.toUpperCase()) !== -1) {
+      this.setState({
+        play : player(e.key.toUpperCase()),
+        title : displayUp(e.key.toUpperCase()),
+        class : addClass(e.key.toUpperCase())
+      })
+    }
+  }
+
+  render() {
+    let buttons = [];
+    for(let i = 0; i < audioFiles.length; i++) {
+      let x = audioFiles[i][0];
+      buttons.push(
+        <Audio
+          f = {this.butClick.bind(this, x, audioFiles[i][1])}
+          k = {(event)=> this.keyPress(audioFiles[i][1],x,event)}
+          id = {x}
+          title = {audioFiles[i][1]}
+          name = {audioFiles[i][0]}
+          src = {audioFiles[i][2]}
+         />
+      )
+    }
+    return(
+      <div id = "drum-machine">
+        <div id="display">{this.state.title}</div>
+        <div className = "pad-bank">{buttons}</div>
+      </div>
+    )
+  }
+}
+
+class Audio extends React.Component {
+  render() {
+    return(
+      <button
+        tabindex="99"
+        id = {this.props.title}
+        className = "drum-pad"
+        onClick = {this.props.f} 
+        onKeyPress = {this.props.k}
+       >{this.props.name}
+        <audio 
+          className = "clip" 
+          id = {this.props.id} 
+          src = {this.props.src}
+         ></audio>
+      </button>
+    )
+  }
+}
+
+//render//
+ReactDOM.render(<Drum/>,document.getElementById('wrap'));
+document.addEventListener("click",() => document.querySelector(".drum-pad").focus());

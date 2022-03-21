@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css?family=Quicksand&display=swap");
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: content-box;
+  font-size: 14px;
+  line-height: 16px;
+  display: block;
+  background: #f2f2f2;
+  font-family: "Audiowide", sans-serif;
+}
+body *:focus {
+  outline: none;
+}
+
+#wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#drum-machine {
+  display: block;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 10px;
+  width: 300px;
+  border-radius: 18px;
+  background: #f2f3f7;
+  box-shadow: -2px -2px 4px 0px #ffffff, 50px 50px 50px 0px rgba(0, 0, 0, 0.25);
+}
+#drum-machine .pad-bank {
+  display: grid;
+  padding: 20px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
+}
+#drum-machine .pad-bank button {
+  height: 70px;
+  background: #fff;
+  border-radius: 12px;
+  transition: all 150ms;
+  font-family: inherit;
+  font-size: 18px;
+  color: #555;
+  box-shadow: 6px 6px 15px rgba(163, 177, 198, 0.5), -9px -9px 16px rgba(255, 255, 255, 0.5);
+  border: 0;
+}
+#drum-machine .pad-bank button.active {
+  transition: all 150ms;
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.05), inset 0px 0px 5px white, inset 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#display {
+  border-radius: 10px;
+  margin: 20px 20px 10px;
+  padding: 20px;
+  color: #555;
+  text-align: center;
+  background: #f9f9f9;
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.05), inset 6px 6px 15px rgba(0, 0, 0, 0.15), inset 0px 0px 5px white;
+}
